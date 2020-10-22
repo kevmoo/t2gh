@@ -12,6 +12,7 @@ jobs:
     container:
       image:  google/dart:latest
     steps:
+    - uses: actions/checkout@v2
     - run: pub get
     - run: dartanalyzer --fatal-warnings --fatal-infos .
   dartfmt:
@@ -19,11 +20,13 @@ jobs:
     container:
       image:  google/dart:latest
     steps:
+    - uses: actions/checkout@v2
     - run: dartfmt -n .
   test:
     runs-on: ubuntu-latest
     container:
       image:  google/dart:latest
     steps:
+    - uses: actions/checkout@v2
     - run: pub get
     - run: pub run test

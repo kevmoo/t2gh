@@ -19,13 +19,10 @@ jobs:
       run: pub get
   analyze:
     needs: setup
-    - name: Checks code analysis
-      run: dartanalyzer --fatal-warnings --fatal-infos .
+    run: dartanalyzer --fatal-warnings --fatal-infos .
   dartfmt:
     needs: setup
-    - name: Check code formatting
-      run: dartfmt -n .
+    run: dartfmt -n .
   test:
     needs: setup
-    - name: Run tests
-      run: pub run test
+    run: pub run test

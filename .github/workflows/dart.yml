@@ -6,14 +6,11 @@ on:
   pull_request:
     branches: [ main ]
 
-defaults:
-  runs-on: ubuntu-latest
-
-  container:
-    image:  google/dart:latest
-
 jobs:
   setup:
+    runs-on: ubuntu-latest
+    container:
+      image:  google/dart:latest
 
     steps:
     - uses: actions/checkout@v2
@@ -21,13 +18,16 @@ jobs:
       run: pub get
   analyze:
     needs: setup
+    runs-on: ubuntu-latest
     steps:
     - run: dartanalyzer --fatal-warnings --fatal-infos .
   dartfmt:
     needs: setup
+    runs-on: ubuntu-latest
     steps:
     - run: dartfmt -n .
   test:
     needs: setup
+    runs-on: ubuntu-latest
     steps:
     - run: pub run test

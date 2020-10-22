@@ -7,16 +7,26 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
+  analyze:
     runs-on: ubuntu-latest
-
     container:
       image:  google/dart:latest
-
     steps:
     - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: pub get
-    - name: Run tests
-      run: pub run test
+    - run: pub get
+    - run: dartanalyzer --fatal-warnings --fatal-infos .
+  dartfmt:
+    runs-on: ubuntu-latest
+    container:
+      image:  google/dart:latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: dartfmt -n .
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image:  google/dart:latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: pub get
+    - run: pub run test

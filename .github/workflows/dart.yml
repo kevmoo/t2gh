@@ -8,13 +8,17 @@ on:
 
 jobs:
   analyze:
+    strategy:
+      matrix:
+        dart: [dev, latest, beta]
     runs-on: ubuntu-latest
     container:
-      image:  google/dart:latest
+      image:  google/dart:${{ matrix.dart }}
     steps:
     - uses: actions/checkout@v2
     - run: pub get
     - run: dartanalyzer --fatal-warnings --fatal-infos .
+
   dartfmt:
     runs-on: ubuntu-latest
     container:
@@ -22,6 +26,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: dartfmt -n .
+
   test:
     runs-on: ubuntu-latest
     container:

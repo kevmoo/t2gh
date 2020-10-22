@@ -19,10 +19,13 @@ jobs:
       run: pub get
   analyze:
     needs: setup
-    run: dartanalyzer --fatal-warnings --fatal-infos .
+    steps:
+    - run: dartanalyzer --fatal-warnings --fatal-infos .
   dartfmt:
     needs: setup
-    run: dartfmt -n .
+    steps:
+    - run: dartfmt -n .
   test:
     needs: setup
-    run: pub run test
+    steps:
+    - run: pub run test

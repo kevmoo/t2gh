@@ -10,7 +10,7 @@ jobs:
   analyze:
     strategy:
       matrix:
-        dart: [dev, latest, beta, '2.9']
+        dart: [dev, latest, beta]
     runs-on: ubuntu-latest
     container:
       image:  google/dart:${{ matrix.dart }}

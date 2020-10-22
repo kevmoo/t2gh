@@ -7,8 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
+  setup:
     runs-on: ubuntu-latest
 
     container:
@@ -18,5 +17,15 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: pub get
+  analyze:
+    needs: setup
+    - name: Checks code analysis
+      run: dartanalyzer --fatal-warnings --fatal-infos .
+  dartfmt:
+    needs: setup
+    - name: Check code formatting
+      run: dartfmt -n .
+  test:
+    needs: setup
     - name: Run tests
       run: pub run test

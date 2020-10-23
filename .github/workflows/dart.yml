@@ -9,14 +9,13 @@ on:
 jobs:
   analyze_strong:
     runs-on: ubuntu-latest
-      runs-on: ubuntu-latest
-      steps:
-      - uses: cedx/setup-dart@v2
-        with:
-          release-channel: dev
-      - uses: actions/checkout@v2
-      - run: pub get
-      - run: dartanalyzer --fatal-warnings --fatal-infos .
+    steps:
+    - uses: cedx/setup-dart@v2
+      with:
+        release-channel: dev
+    - uses: actions/checkout@v2
+    - run: pub get
+    - run: dartanalyzer --fatal-warnings --fatal-infos .
 
   analyze:
     runs-on: ubuntu-latest

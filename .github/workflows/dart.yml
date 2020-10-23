@@ -7,17 +7,26 @@ on:
     branches: [ main ]
 
 jobs:
+  analyze_strong:
+    runs-on: ubuntu-latest
+    container:
+      image:  google/dart:dev
+    steps:
+    - uses: actions/checkout@v2
+    - run: pub get
+    - run: dartanalyzer --fatal-warnings --fatal-infos .
+
   analyze:
     strategy:
       matrix:
-        dart: [dev, latest, beta]
+        dart: [latest, beta]
     runs-on: ubuntu-latest
     container:
       image:  google/dart:${{ matrix.dart }}
     steps:
     - uses: actions/checkout@v2
     - run: pub get
-    - run: dartanalyzer --fatal-warnings --fatal-infos .
+    - run: dartanalyzer --fatal-warnings .
 
   dartfmt:
     runs-on: ubuntu-latest
@@ -28,9 +37,12 @@ jobs:
     - run: dartfmt -n .
 
   test:
+    strategy:
+      matrix:
+        dart: [dev, latest, beta]
     runs-on: ubuntu-latest
     container:
-      image:  google/dart:latest
+      image:  google/dart:${{ matrix.dart }}
     steps:
     - uses: actions/checkout@v2
     - run: pub get

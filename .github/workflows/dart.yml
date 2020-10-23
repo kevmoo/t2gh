@@ -9,41 +9,43 @@ on:
 jobs:
   analyze_strong:
     runs-on: ubuntu-latest
-    container:
-      image:  google/dart:dev
     steps:
+    - uses: cedx/setup-dart@v2
+      with:
+        release-channel: dev
     - uses: actions/checkout@v2
     - run: pub get
     - run: dartanalyzer --fatal-warnings --fatal-infos .
 
   analyze:
-    strategy:
-      matrix:
-        dart: [latest, beta]
     runs-on: ubuntu-latest
-    container:
-      image:  google/dart:${{ matrix.dart }}
     steps:
+    - uses: cedx/setup-dart@v2
+      with:
+        release-channel: stable
     - uses: actions/checkout@v2
     - run: pub get
     - run: dartanalyzer --fatal-warnings .
 
   dartfmt:
     runs-on: ubuntu-latest
-    container:
-      image:  google/dart:latest
     steps:
+    - uses: cedx/setup-dart@v2
+      with:
+        release-channel: dev
     - uses: actions/checkout@v2
     - run: dartfmt -n .
 
   test:
     strategy:
       matrix:
-        dart: [dev, latest, beta]
-    runs-on: ubuntu-latest
-    container:
-      image:  google/dart:${{ matrix.dart }}
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        sdk: [dev, stable, beta]
+    runs-on: ${{matrix.os}}
     steps:
+    - uses: cedx/setup-dart@v2
+      with:
+        release-channel: ${{matrix.sdk}}
     - uses: actions/checkout@v2
     - run: pub get
     - run: pub run test
